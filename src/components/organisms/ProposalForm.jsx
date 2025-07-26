@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
-import Button from "@/components/atoms/Button"
-import FormField from "@/components/molecules/FormField"
-import { proposalService } from "@/services/api/proposalService"
-import { clientService } from "@/services/api/clientService"
-import ApperIcon from "@/components/ApperIcon"
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import clientService from "@/services/api/clientService";
+import { proposalService } from "@/services/api/proposalService";
+import { create as createQuote, getAll as getAllQuotes, update as updateQuote } from "@/services/api/quoteService";
+import { create as createRate, getAll as getAllRates, update as updateRate } from "@/services/api/rateService";
+import ApperIcon from "@/components/ApperIcon";
+import FormField from "@/components/molecules/FormField";
+import Button from "@/components/atoms/Button";
 
 const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -12,7 +14,7 @@ const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
     clientId: proposal?.clientId || "",
     status: proposal?.status || "Draft",
     notes: proposal?.notes || "",
-    lineItems: proposal?.lineItems || [{ id: 1, service: "", price: 0 }]
+    lineItems: proposal?.lineItems || [{ id: `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, service: "", price: 0 }]
   })
   const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(false)
@@ -49,9 +51,8 @@ const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
     }
     setFormData(prev => ({ ...prev, lineItems: updatedItems }))
   }
-
-  const addLineItem = () => {
-    const newId = Math.max(...formData.lineItems.map(item => item.id)) + 1
+const addLineItem = () => {
+    const newId = `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
     setFormData(prev => ({
       ...prev,
       lineItems: [...prev.lineItems, { id: newId, service: "", price: 0 }]
@@ -194,9 +195,9 @@ const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
           <p className="text-sm text-red-600">{errors.lineItems}</p>
         )}
 
-        <div className="space-y-3">
+<div className="space-y-3">
           {formData.lineItems.map((item, index) => (
-            <div key={item.id} className="flex gap-3 items-start">
+            <div key={item.id || `lineitem_${index}`} className="flex gap-3 items-start">
               <div className="flex-1">
                 <input
                   type="text"
