@@ -8,9 +8,9 @@ import Jobs from "@/components/pages/Jobs"
 import Proposals from "@/components/pages/Proposals"
 import Invoices from "@/components/pages/Invoices"
 import Calendar from "@/components/pages/Calendar"
+import Schedule from "@/components/pages/Schedule"
 import RateManagement from "@/components/pages/RateManagement"
 import QuoteGenerator from "@/components/pages/QuoteGenerator"
-
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +24,7 @@ function App() {
             <Route path="/proposals" element={<Proposals />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/schedule" element={<Schedule />} />
             <Route path="/rates" element={<RateManagement />} />
             <Route path="/quote" element={<QuoteGenerator />} />
           </Routes>

@@ -58,7 +58,7 @@ export const jobService = {
     return true
   },
 
-  async getByMonth(year, month) {
+async getByMonth(year, month) {
     await delay(200)
     return jobs.filter(job => {
       const jobDate = new Date(job.date)
@@ -67,5 +67,19 @@ export const jobService = {
       ...job,
       clientName: clients.find(c => c.Id === job.clientId)?.name || "Unknown Client"
     }))
+  },
+
+  async getByWeek(weekStart) {
+    await delay(200)
+    const weekEnd = new Date(weekStart)
+    weekEnd.setDate(weekStart.getDate() + 6)
+    
+    return jobs.filter(job => {
+      const jobDate = new Date(job.date)
+      return jobDate >= weekStart && jobDate <= weekEnd
+    }).map(job => ({
+      ...job,
+      clientName: clients.find(c => c.Id === job.clientId)?.name || "Unknown Client"
+    })).sort((a, b) => new Date(a.date) - new Date(b.date))
   }
 }
