@@ -2,23 +2,28 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import clientService from "@/services/api/clientService";
 import { proposalService } from "@/services/api/proposalService";
-import { create as createQuote, getAll as getAllQuotes, update as updateQuote } from "@/services/api/quoteService";
-import { create as createRate, getAll as getAllRates, update as updateRate } from "@/services/api/rateService";
 import ApperIcon from "@/components/ApperIcon";
 import FormField from "@/components/molecules/FormField";
 import Button from "@/components/atoms/Button";
 
 const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
-const [formData, setFormData] = useState({
+  // Counter to ensure unique IDs across all line items
+  let itemIdCounter = Date.now();
+  
+  const defaultData = {
     title: proposal?.title || "",
     clientId: proposal?.clientId || "",
     status: proposal?.status || "Draft",
-    notes: proposal?.notes || "",
+    notes: proposal?.notes || ""
+  };
+  
+  const [formData, setFormData] = useState({
+    ...defaultData,
     lineItems: (proposal?.lineItems || [{ service: "", price: 0 }]).map((item, index) => ({
       ...item,
-      id: item.id || `item_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 9)}`
+      id: item.id || `item_${++itemIdCounter}_${index}`
     }))
-  })
+  });
   const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -66,10 +71,7 @@ const loadClients = async () => {
     setFormData(prev => ({ ...prev, lineItems: updatedItems }))
   }
 const addLineItem = () => {
-    const timestamp = Date.now()
-    const counter = Math.floor(Math.random() * 1000)
-    const randomStr = Math.random().toString(36).substr(2, 9)
-    const newId = `item_${timestamp}_${counter}_${randomStr}`
+    const newId = `item_${++itemIdCounter}`
     setFormData(prev => ({
       ...prev,
       lineItems: [...prev.lineItems, { id: newId, service: "", price: 0 }]
@@ -161,8 +163,8 @@ const addLineItem = () => {
             required
           >
             <option value="">Select a client</option>
-{clients.map(client => (
-              <option key={client.Id} value={client.Id}>
+{clients.map((client, index) => (
+              <option key={client.Id || `client_${index}`} value={client.Id}>
                 {client.name}{client.isProspect ? ' (Prospect)' : ''}
               </option>
             ))}
