@@ -1,0 +1,152 @@
+[
+  {
+    "Id": 1,
+    "clientId": 1,
+    "title": "Weekly Residential Cleaning Package",
+    "dateSent": "2024-01-16T10:00:00Z",
+    "status": "Approved",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Kitchen Deep Clean",
+        "price": 75.00
+      },
+      {
+        "id": 2,
+        "service": "Bathroom Sanitization",
+        "price": 50.00
+      },
+      {
+        "id": 3,
+        "service": "Living Areas Dust & Vacuum",
+        "price": 60.00
+      }
+    ],
+    "total": 185.00,
+    "notes": "Weekly service includes all standard cleaning supplies. Pet-safe products used throughout.",
+    "jobId": 1
+  },
+  {
+    "Id": 2,
+    "clientId": 2,
+    "title": "Monthly Office Cleaning Contract",
+    "dateSent": "2024-01-19T14:30:00Z",
+    "status": "Approved",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Workstation Cleaning & Sanitization",
+        "price": 120.00
+      },
+      {
+        "id": 2,
+        "service": "Common Area Deep Clean",
+        "price": 80.00
+      },
+      {
+        "id": 3,
+        "service": "Restroom Maintenance",
+        "price": 45.00
+      },
+      {
+        "id": 4,
+        "service": "Floor Care & Vacuum",
+        "price": 65.00
+      }
+    ],
+    "total": 310.00,
+    "notes": "After-hours service preferred. All eco-friendly cleaning products included.",
+    "jobId": 2
+  },
+  {
+    "Id": 3,
+    "clientId": 3,
+    "title": "Move-out Deep Cleaning Service",
+    "dateSent": "2024-01-23T09:15:00Z",
+    "status": "Sent",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Complete Kitchen Deep Clean",
+        "price": 150.00
+      },
+      {
+        "id": 2,
+        "service": "Bathroom Deep Sanitization",
+        "price": 100.00
+      },
+      {
+        "id": 3,
+        "service": "All Rooms Detail Cleaning",
+        "price": 200.00
+      },
+      {
+        "id": 4,
+        "service": "Window & Baseboard Cleaning",
+        "price": 75.00
+      }
+    ],
+    "total": 525.00,
+    "notes": "Comprehensive move-out cleaning to ensure full security deposit return. Includes light fixtures and inside appliances.",
+    "jobId": 3
+  },
+  {
+    "Id": 4,
+    "clientId": 5,
+    "title": "Post-Construction Cleanup Package",
+    "dateSent": "2024-01-29T11:00:00Z",
+    "status": "Approved",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Dust & Debris Removal",
+        "price": 200.00
+      },
+      {
+        "id": 2,
+        "service": "Window Cleaning (Interior/Exterior)",
+        "price": 125.00
+      },
+      {
+        "id": 3,
+        "service": "Floor Deep Clean & Polish",
+        "price": 150.00
+      },
+      {
+        "id": 4,
+        "service": "Final Detail Touch-up",
+        "price": 100.00
+      }
+    ],
+    "total": 575.00,
+    "notes": "Specialized equipment included for construction cleanup. Paint and adhesive removal as needed.",
+    "jobId": 5
+  },
+  {
+    "Id": 5,
+    "clientId": 4,
+    "title": "Bi-weekly Home Maintenance Plan",
+    "dateSent": "2024-02-02T13:45:00Z",
+    "status": "Draft",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "General House Cleaning",
+        "price": 140.00
+      },
+      {
+        "id": 2,
+        "service": "Pet Area Special Attention",
+        "price": 35.00
+      },
+      {
+        "id": 3,
+        "service": "Allergy-Safe Product Upgrade",
+        "price": 20.00
+      }
+    ],
+    "total": 195.00,
+    "notes": "Bi-weekly service with focus on pet areas. Hypoallergenic products throughout home.",
+    "jobId": null
+  }
+]

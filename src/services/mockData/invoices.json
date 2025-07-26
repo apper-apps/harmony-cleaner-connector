@@ -1,0 +1,123 @@
+[
+  {
+    "Id": 1,
+    "invoiceNumber": "INV-2024-001",
+    "clientId": 2,
+    "jobId": 2,
+    "issueDate": "2024-02-12T20:00:00Z",
+    "dueDate": "2024-02-27T23:59:59Z",
+    "status": "Paid",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Workstation Cleaning & Sanitization",
+        "cost": 120.00
+      },
+      {
+        "id": 2,
+        "service": "Common Area Deep Clean",
+        "cost": 80.00
+      },
+      {
+        "id": 3,
+        "service": "Restroom Maintenance",
+        "cost": 45.00
+      },
+      {
+        "id": 4,
+        "service": "Floor Care & Vacuum",
+        "cost": 65.00
+      }
+    ],
+    "total": 310.00,
+    "paymentTerms": "Net 15 days",
+    "notes": "Thank you for your business! Monthly office cleaning completed as scheduled."
+  },
+  {
+    "Id": 2,
+    "invoiceNumber": "INV-2024-002",
+    "clientId": 5,
+    "jobId": 5,
+    "issueDate": "2024-02-13T17:00:00Z",
+    "dueDate": "2024-02-28T23:59:59Z",
+    "status": "Unpaid",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Dust & Debris Removal",
+        "cost": 200.00
+      },
+      {
+        "id": 2,
+        "service": "Window Cleaning (Interior/Exterior)",
+        "cost": 125.00
+      },
+      {
+        "id": 3,
+        "service": "Floor Deep Clean & Polish",
+        "cost": 150.00
+      },
+      {
+        "id": 4,
+        "service": "Final Detail Touch-up",
+        "cost": 100.00
+      }
+    ],
+    "total": 575.00,
+    "paymentTerms": "Net 15 days",
+    "notes": "Post-construction cleanup completed. Specialized equipment and materials included in service."
+  },
+  {
+    "Id": 3,
+    "invoiceNumber": "INV-2024-003",
+    "clientId": 1,
+    "jobId": null,
+    "issueDate": "2024-02-10T12:00:00Z",
+    "dueDate": "2024-02-25T23:59:59Z",
+    "status": "Overdue",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Kitchen Deep Clean",
+        "cost": 75.00
+      },
+      {
+        "id": 2,
+        "service": "Bathroom Sanitization",
+        "cost": 50.00
+      },
+      {
+        "id": 3,
+        "service": "Living Areas Dust & Vacuum",
+        "cost": 60.00
+      }
+    ],
+    "total": 185.00,
+    "paymentTerms": "Net 15 days",
+    "notes": "Weekly residential cleaning service. Pet-safe products used as requested."
+  },
+  {
+    "Id": 4,
+    "invoiceNumber": "INV-2024-004",
+    "clientId": 6,
+    "jobId": null,
+    "issueDate": "2024-02-14T16:30:00Z",
+    "dueDate": "2024-03-01T23:59:59Z",
+    "status": "Unpaid",
+    "lineItems": [
+      {
+        "id": 1,
+        "service": "Senior Care Cleaning Service",
+        "cost": 95.00
+      },
+      {
+        "id": 2,
+        "service": "Gentle Product Upgrade",
+        "cost": 15.00
+      }
+    ],
+    "total": 110.00,
+    "paymentTerms": "Net 15 days",
+    "notes": "Specialized senior care cleaning with gentle, non-toxic products throughout home."
+  }
+]
