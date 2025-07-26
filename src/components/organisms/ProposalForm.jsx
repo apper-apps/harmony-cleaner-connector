@@ -7,8 +7,15 @@ import FormField from "@/components/molecules/FormField";
 import Button from "@/components/atoms/Button";
 
 const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
-  // Counter to ensure unique IDs across all line items
-  let itemIdCounter = Date.now();
+// Generate unique IDs for line items
+  const generateUniqueId = () => {
+    try {
+      return crypto.randomUUID();
+    } catch {
+      // Fallback for environments without crypto.randomUUID
+      return `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+  };
   
   const defaultData = {
     title: proposal?.title || "",
@@ -18,10 +25,10 @@ const ProposalForm = ({ proposal = null, onSubmit, onCancel }) => {
   };
   
   const [formData, setFormData] = useState({
-    ...defaultData,
-    lineItems: (proposal?.lineItems || [{ service: "", price: 0 }]).map((item, index) => ({
+...defaultData,
+    lineItems: (proposal?.lineItems || [{ service: "", price: 0 }]).map((item) => ({
       ...item,
-      id: item.id || `item_${++itemIdCounter}_${index}`
+      id: item.id || generateUniqueId()
     }))
   });
   const [clients, setClients] = useState([])
@@ -71,7 +78,7 @@ const loadClients = async () => {
     setFormData(prev => ({ ...prev, lineItems: updatedItems }))
   }
 const addLineItem = () => {
-    const newId = `item_${++itemIdCounter}`
+    const newId = generateUniqueId();
     setFormData(prev => ({
       ...prev,
       lineItems: [...prev.lineItems, { id: newId, service: "", price: 0 }]
