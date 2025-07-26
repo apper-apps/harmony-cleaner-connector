@@ -43,6 +43,29 @@ async getById(id) {
     }
 },
 
+async getAllProspects() {
+  await delay(300)
+  const prospects = clients.filter(client => client.status === 'prospect')
+  return prospects.map(client => ({
+    ...client,
+    status: client.status || 'prospect',
+    jobCount: jobs.filter(job => job.clientId === client.Id).length,
+    proposalCount: proposals.filter(proposal => proposal.clientId === client.Id).length,
+    invoiceCount: invoices.filter(invoice => invoice.clientId === client.Id).length
+  }))
+},
+
+async getAllClients() {
+  await delay(300)
+  const clientsOnly = clients.filter(client => client.status === 'client')
+  return clientsOnly.map(client => ({
+    ...client,
+    status: client.status || 'client',
+    jobCount: jobs.filter(job => job.clientId === client.Id).length,
+    proposalCount: proposals.filter(proposal => proposal.clientId === client.Id).length,
+    invoiceCount: invoices.filter(invoice => invoice.clientId === client.Id).length
+  }))
+},
   async create(clientData) {
     await delay(400)
     const newId = Math.max(...clients.map(c => c.Id), 0) + 1
