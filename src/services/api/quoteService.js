@@ -35,12 +35,11 @@ const calculateQuote = (quoteData) => {
   const surcharges = getSurcharges()
   let totalSurcharges = 0
   
-  addOns.forEach(addOn => {
+addOns.forEach(addOn => {
     const surcharge = surcharges.find(s => {
-      if (addOn === 'deepCleaning') return s.name === 'Deep Cleaning'
-      if (addOn === 'pets') return s.name === 'Pet Hair Cleanup'
-      if (addOn === 'supplies') return s.name === 'Cleaning Supplies'
-      return false
+      const normalizedSurchargeName = s.name.toLowerCase().replace(/\s+/g, '')
+      const normalizedAddOn = addOn.toLowerCase().replace(/\s+/g, '')
+      return normalizedSurchargeName === normalizedAddOn
     })
     
     if (surcharge) {

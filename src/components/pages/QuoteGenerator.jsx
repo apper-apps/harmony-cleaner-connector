@@ -19,13 +19,35 @@ const QuoteGenerator = () => {
   })
   const [quote, setQuote] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [surcharges, setSurcharges] = useState([])
+const [surcharges, setSurcharges] = useState([])
   const [discounts, setDiscounts] = useState([])
+  const [addOnOptions, setAddOnOptions] = useState([])
 
-  useEffect(() => {
+useEffect(() => {
     // Load available surcharges and discounts
-    setSurcharges(getSurcharges())
-    setDiscounts(getDiscounts())
+    const loadedSurcharges = getSurcharges()
+    const loadedDiscounts = getDiscounts()
+    
+    setSurcharges(loadedSurcharges)
+    setDiscounts(loadedDiscounts)
+    
+    // Map surcharges to add-on options with appropriate icons
+    const mappedAddOns = loadedSurcharges.map(surcharge => {
+      let icon = 'Plus'
+      if (surcharge.name.toLowerCase().includes('deep')) icon = 'Sparkles'
+      else if (surcharge.name.toLowerCase().includes('pet')) icon = 'Heart'
+      else if (surcharge.name.toLowerCase().includes('supplies') || surcharge.name.toLowerCase().includes('supply')) icon = 'ShoppingBag'
+      
+      return {
+        key: surcharge.name.toLowerCase().replace(/\s+/g, ''),
+        name: surcharge.name,
+        description: surcharge.description,
+        icon: icon,
+        id: surcharge.Id
+      }
+    })
+    
+    setAddOnOptions(mappedAddOns)
   }, [])
 
   const handleInputChange = (field, value) => {
@@ -45,7 +67,7 @@ const QuoteGenerator = () => {
     }
   }
 
-  const handleAddOnToggle = (addOnKey) => {
+const handleAddOnToggle = (addOnKey) => {
     const newAddOns = formData.addOns.includes(addOnKey)
       ? formData.addOns.filter(addon => addon !== addOnKey)
       : [...formData.addOns, addOnKey]
@@ -107,34 +129,12 @@ const handleSubmit = async (e) => {
     }
   }
 
-  const addOnOptions = [
-    {
-      key: 'deepCleaning',
-      name: 'Deep Cleaning',
-      description: 'Comprehensive deep cleaning service',
-      icon: 'Sparkles'
-    },
-    {
-      key: 'pets',
-      name: 'Pet Hair Cleanup',
-      description: 'Additional cleaning for pet owners',
-      icon: 'Heart'
-    },
-    {
-      key: 'supplies',
-      name: 'Cleaning Supplies',
-      description: 'We provide all cleaning supplies',
-      icon: 'ShoppingBag'
-    }
-  ]
-
-  const frequencyOptions = [
+const frequencyOptions = [
     { value: 'weekly', label: 'Weekly' },
     { value: 'biweekly', label: 'Bi-Weekly' },
     { value: 'monthly', label: 'Monthly' },
     { value: 'oneTime', label: 'One-Time' }
   ]
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-50 py-12">
       <div className="max-w-4xl mx-auto px-6">
