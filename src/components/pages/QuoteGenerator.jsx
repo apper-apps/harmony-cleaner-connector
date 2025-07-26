@@ -83,10 +83,11 @@ const handleSubmit = async (e) => {
       return
     }
 
-    setLoading(true)
+setLoading(true)
     try {
       const quoteData = {
         ...formData,
+        frequency: formData.serviceFrequency, // Map serviceFrequency to frequency for service compatibility
         squareFootage: parseInt(formData.squareFootage)
       }
       

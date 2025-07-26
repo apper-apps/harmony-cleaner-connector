@@ -95,16 +95,20 @@ const create = async (quoteData) => {
   }
   
   quotes.push(newQuote)
-  
-  try {
+try {
+    // Validate required properties
+    if (!quoteData.serviceFrequency) {
+      throw new Error('Service frequency is required')
+    }
+    
     // Generate detailed notes including all selections
-    const addOnsList = quoteData.addOns ? 
-      Object.entries(quoteData.addOns)
-        .filter(([key, selected]) => selected)
-        .map(([key]) => key.replace(/([A-Z])/g, ' $1').trim().toLowerCase())
+    const addOnsList = quoteData.addOns && Array.isArray(quoteData.addOns) && quoteData.addOns.length > 0 ? 
+      quoteData.addOns
+        .map(key => key.replace(/([A-Z])/g, ' $1').trim().toLowerCase())
         .join(', ') : 'None'
     
-    const detailedNotes = `Quote #${newQuote.Id} - ${quoteData.frequency} cleaning service for ${quoteData.squareFootage} sq ft. Selected add-ons: ${addOnsList}. Total estimate: $${newQuote.totalPrice}. Customer preferences and requirements documented.`
+    const frequency = quoteData.serviceFrequency || 'weekly'
+    const detailedNotes = `Quote #${newQuote.Id} - ${frequency} cleaning service for ${quoteData.squareFootage || 'unspecified'} sq ft. Selected add-ons: ${addOnsList}. Total estimate: $${newQuote.totalPrice}. Customer preferences and requirements documented.`
     
     // Create prospect with comprehensive notes
     const prospectData = {
@@ -119,15 +123,18 @@ const create = async (quoteData) => {
     const createdProspect = await clientService.createProspect(prospectData)
     
     // Create corresponding proposal with same detailed information
+const frequency = quoteData.serviceFrequency || 'weekly'
+    const capitalizedFrequency = frequency.charAt(0).toUpperCase() + frequency.slice(1)
+    
     const proposalData = {
       clientId: createdProspect.Id,
-      title: `${quoteData.frequency.charAt(0).toUpperCase() + quoteData.frequency.slice(1)} Cleaning Service - Quote #${newQuote.Id}`,
+      title: `${capitalizedFrequency} Cleaning Service - Quote #${newQuote.Id}`,
       status: 'Draft',
       lineItems: [
         {
           id: 1,
-          service: `${quoteData.frequency.charAt(0).toUpperCase() + quoteData.frequency.slice(1)} Cleaning Service`,
-          price: parseFloat(newQuote.basePrice)
+          service: `${capitalizedFrequency} Cleaning Service`,
+          price: parseFloat(newQuote.basePrice || 0)
         }
       ],
       notes: detailedNotes,
