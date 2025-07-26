@@ -120,10 +120,9 @@ try {
       notes: detailedNotes
     }
     
-    const createdProspect = await clientService.createProspect(prospectData)
+const createdProspect = await clientService.createProspect(prospectData)
     
     // Create corresponding proposal with same detailed information
-const frequency = quoteData.serviceFrequency || 'weekly'
     const capitalizedFrequency = frequency.charAt(0).toUpperCase() + frequency.slice(1)
     
     const proposalData = {
