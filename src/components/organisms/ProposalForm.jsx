@@ -29,12 +29,23 @@ const [formData, setFormData] = useState({
     loadClients()
   }, [])
 
-  const loadClients = async () => {
+const loadClients = async () => {
     try {
       const clientData = await clientService.getAll()
-      setClients(clientData)
+      const prospectData = await clientService.getAllProspects()
+      
+      // Combine clients and prospects for dropdown selection
+      const combinedData = [
+        ...clientData,
+        ...prospectData.map(prospect => ({
+          ...prospect,
+          isProspect: true
+        }))
+      ]
+      
+      setClients(combinedData)
     } catch (error) {
-      toast.error("Failed to load clients")
+      toast.error("Failed to load clients and prospects")
     }
   }
 
@@ -150,9 +161,9 @@ const addLineItem = () => {
             required
           >
             <option value="">Select a client</option>
-            {clients.map(client => (
+{clients.map(client => (
               <option key={client.Id} value={client.Id}>
-                {client.name}
+                {client.name}{client.isProspect ? ' (Prospect)' : ''}
               </option>
             ))}
           </select>
