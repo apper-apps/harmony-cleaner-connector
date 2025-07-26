@@ -1,6 +1,7 @@
 import quotesData from '@/services/mockData/quotes.json'
 import { calculateBasePrice, getSurcharges, getDiscounts } from './rateService'
-
+import { proposalService } from './proposalService'
+import { clientService } from './clientService'
 let quotes = [...quotesData]
 let nextId = Math.max(...quotes.map(q => q.Id)) + 1
 
@@ -76,7 +77,7 @@ const calculateQuote = (quoteData) => {
 }
 
 // Create new quote
-const create = (quoteData) => {
+const create = async (quoteData) => {
   const pricing = calculateQuote(quoteData)
   
   const newQuote = {
@@ -94,7 +95,67 @@ const create = (quoteData) => {
   }
   
   quotes.push(newQuote)
-  return { ...newQuote }
+  
+  try {
+    // Generate detailed notes including all selections
+    const addOnsList = quoteData.addOns ? 
+      Object.entries(quoteData.addOns)
+        .filter(([key, selected]) => selected)
+        .map(([key]) => key.replace(/([A-Z])/g, ' $1').trim().toLowerCase())
+        .join(', ') : 'None'
+    
+    const detailedNotes = `Quote #${newQuote.Id} - ${quoteData.frequency} cleaning service for ${quoteData.squareFootage} sq ft. Selected add-ons: ${addOnsList}. Total estimate: $${newQuote.totalPrice}. Customer preferences and requirements documented.`
+    
+    // Create prospect with comprehensive notes
+    const prospectData = {
+      name: newQuote.customerName,
+      email: newQuote.customerEmail,
+      phone: newQuote.customerPhone || '',
+      status: 'prospect',
+      source: 'quote_generator',
+      notes: detailedNotes
+    }
+    
+    const createdProspect = await clientService.createProspect(prospectData)
+    
+    // Create corresponding proposal with same detailed information
+    const proposalData = {
+      clientId: createdProspect.Id,
+      title: `${quoteData.frequency.charAt(0).toUpperCase() + quoteData.frequency.slice(1)} Cleaning Service - Quote #${newQuote.Id}`,
+      status: 'Draft',
+      lineItems: [
+        {
+          id: 1,
+          service: `${quoteData.frequency.charAt(0).toUpperCase() + quoteData.frequency.slice(1)} Cleaning Service`,
+          price: parseFloat(newQuote.basePrice)
+        }
+      ],
+      notes: detailedNotes,
+      jobId: null
+    }
+    
+    // Add line items for selected add-ons
+    if (quoteData.addOns) {
+      let itemId = 2
+      Object.entries(quoteData.addOns).forEach(([key, selected]) => {
+        if (selected) {
+          const serviceName = key.replace(/([A-Z])/g, ' $1').trim()
+          proposalData.lineItems.push({
+            id: itemId++,
+            service: serviceName,
+            price: 25.00 // Default add-on price
+          })
+        }
+      })
+    }
+    
+    await proposalService.create(proposalData)
+    
+    return { ...newQuote, prospectId: createdProspect.Id }
+  } catch (error) {
+    console.error('Error creating prospect/proposal from quote:', error)
+    return { ...newQuote }
+  }
 }
 
 // Update quote
