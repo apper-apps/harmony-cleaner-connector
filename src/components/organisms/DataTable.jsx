@@ -134,9 +134,10 @@ const DataTable = ({
                       </div>
                     </td>
                   )}
-                </tr>
+</tr>
               )
             })}
+          </tbody>
         </table>
       </div>
     </div>
