@@ -139,23 +139,6 @@ const frequencyOptions = [
     <div className="min-h-screen bg-gradient-to-br from-primary-50 to-blue-50 py-12">
       <div className="max-w-4xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-12">
-<div className="inline-flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-full bg-gradient-to-r from-primary-500 to-primary-600">
-              <ApperIcon name="Sparkles" className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-              Get Your Quote
-            </h1>
-          </div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            Get Your Cleaning Quote
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Tell us about your space and cleaning needs, and we'll provide you with an instant quote 
-            for our professional cleaning services.
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Quote Form */}
