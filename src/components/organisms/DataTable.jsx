@@ -80,8 +80,8 @@ const DataTable = ({
               )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
-{sortedData.map((row, index) => {
+<tbody className="divide-y divide-gray-200">
+            {sortedData.map((row, index) => {
               // Generate truly unique key to prevent React warning about duplicate keys
               const uniqueKey = row.Id ? `${row.Id}-${index}` : 
                                 row.id ? `${row.id}-${index}` :
@@ -95,48 +95,48 @@ const DataTable = ({
                   key={uniqueKey}
                   className="hover:bg-gray-50 transition-colors duration-150"
                 >
-                {columns.map((column) => (
-                  <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {column.render ? column.render(row[column.key], row) : row[column.key]}
-                  </td>
-                ))}
-                {(onEdit || onDelete || onView) && (
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex items-center justify-end gap-2">
-                      {onView && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onView(row)}
-                        >
-                          <ApperIcon name="Eye" className="h-4 w-4" />
-                        </Button>
-                      )}
-                      {onEdit && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => onEdit(row)}
-                        >
-                          <ApperIcon name="Edit" className="h-4 w-4" />
-                        </Button>
-                      )}
-                      {onDelete && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-onClick={() => onDelete(row)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <ApperIcon name="Trash2" className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </td>
-)}
-              </tr>
-            )};
-          </tbody>
+                  {columns.map((column) => (
+                    <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    </td>
+                  ))}
+                  {(onEdit || onDelete || onView) && (
+                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <div className="flex items-center justify-end gap-2">
+                        {onView && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onView(row)}
+                          >
+                            <ApperIcon name="Eye" className="h-4 w-4" />
+                          </Button>
+                        )}
+                        {onEdit && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onEdit(row)}
+                          >
+                            <ApperIcon name="Edit" className="h-4 w-4" />
+                          </Button>
+                        )}
+                        {onDelete && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => onDelete(row)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <ApperIcon name="Trash2" className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              )
+            })}
         </table>
       </div>
     </div>
