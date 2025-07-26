@@ -1,14 +1,13 @@
-import clientsData from "@/services/mockData/clients.json"
-import prospectsData from "@/services/mockData/prospects.json"
-import jobsData from "@/services/mockData/jobs.json"
-import proposalsData from "@/services/mockData/proposals.json"
-import invoicesData from "@/services/mockData/invoices.json"
+import clientsData from "@/services/mockData/clients.json";
+import prospectsData from "@/services/mockData/prospects.json";
+import jobsData from "@/services/mockData/jobs.json";
+import proposalsData from "@/services/mockData/proposals.json";
+import invoicesData from "@/services/mockData/invoices.json";
 
 let clients = [...clientsData, ...prospectsData]
 let jobs = [...jobsData]
 let proposals = [...proposalsData]
 let invoices = [...invoicesData]
-
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 export const clientService = {
@@ -42,9 +41,9 @@ async getById(id) {
       proposalCount: clientProposals.length,
       invoiceCount: clientInvoices.length
     }
-  },
+},
 
-async create(clientData) {
+  async create(clientData) {
     await delay(400)
     const newId = Math.max(...clients.map(c => c.Id), 0) + 1
     const newClient = {
@@ -60,6 +59,11 @@ async create(clientData) {
       proposalCount: 0,
       invoiceCount: 0
     }
+  },
+
+  // Alias for legacy compatibility
+  async createProspect(clientData) {
+    return this.create({ ...clientData, status: 'prospect' })
   },
 
   async update(id, clientData) {
@@ -80,3 +84,6 @@ async create(clientData) {
     return true
   }
 }
+
+// Maintain backward compatibility
+export default clientService
