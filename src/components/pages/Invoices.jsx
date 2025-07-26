@@ -127,7 +127,7 @@ const Invoices = () => {
   }
 
   const columns = [
-    {
+{
       key: "invoiceNumber",
       label: "Invoice Number",
       sortable: true
@@ -140,7 +140,14 @@ const Invoices = () => {
     {
       key: "jobTitle",
       label: "Job",
-      render: (value) => value || "No Job"
+      render: (value, row) => (
+        <div className="text-sm">
+          <div>{value || "No Job"}</div>
+          {row.jobId && (
+            <div className="text-xs text-blue-600">Job ID: {row.jobId}</div>
+          )}
+        </div>
+      )
     },
     {
       key: "issueDate",

@@ -35,24 +35,29 @@ const loadDashboardData = async () => {
         clientService.getAll()
       ])
 
+      // Active jobs that are scheduled or in progress
       const activeJobs = jobs.filter(job => 
         job.status === "Scheduled" || job.status === "In Progress"
       ).length
 
+      // Pending proposals waiting for response
       const pendingProposals = proposals.filter(proposal => 
         proposal.status === "Sent" || proposal.status === "Draft"
       ).length
 
+      // Unpaid invoices including overdue
       const unpaidInvoices = invoices.filter(invoice => 
         invoice.status === "Unpaid" || invoice.status === "Overdue"
       ).length
 
+      // Recent clients (last 30 days) converted from prospects
       const thirtyDaysAgo = new Date()
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
       const recentClients = clients.filter(client => 
         new Date(client.createdAt) > thirtyDaysAgo && client.status === 'client'
       ).length
 
+      // Active prospects from quote generator and other sources
       const prospects = clients.filter(client => 
         client.status === 'prospect'
       ).length

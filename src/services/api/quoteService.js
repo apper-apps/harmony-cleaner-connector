@@ -35,7 +35,7 @@ const calculateQuote = (quoteData) => {
   const surcharges = getSurcharges()
   let totalSurcharges = 0
   
-addOns.forEach(addOn => {
+  addOns.forEach(addOn => {
     const surcharge = surcharges.find(s => {
       const normalizedSurchargeName = s.name.toLowerCase().replace(/\s+/g, '')
       const normalizedAddOn = addOn.toLowerCase().replace(/\s+/g, '')

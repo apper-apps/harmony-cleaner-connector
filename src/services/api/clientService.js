@@ -18,11 +18,12 @@ async getAll() {
       ...client,
       status: client.status || 'client',
       jobCount: jobs.filter(job => job.clientId === client.Id).length,
+      proposalCount: proposals.filter(proposal => proposal.clientId === client.Id).length,
       invoiceCount: invoices.filter(invoice => invoice.clientId === client.Id).length
     }))
   },
 
-  async getById(id) {
+async getById(id) {
     await delay(200)
     const client = clients.find(c => c.Id === parseInt(id))
     if (!client) return null
@@ -33,15 +34,19 @@ async getAll() {
     
     return {
       ...client,
+      status: client.status || 'client',
       jobs: clientJobs,
       proposals: clientProposals,
-      invoices: clientInvoices
+      invoices: clientInvoices,
+      jobCount: clientJobs.length,
+      proposalCount: clientProposals.length,
+      invoiceCount: clientInvoices.length
     }
   },
 
 async create(clientData) {
     await delay(400)
-    const newId = Math.max(...clients.map(c => c.Id)) + 1
+    const newId = Math.max(...clients.map(c => c.Id), 0) + 1
     const newClient = {
       Id: newId,
       ...clientData,
@@ -49,7 +54,12 @@ async create(clientData) {
       createdAt: new Date().toISOString()
     }
     clients.push(newClient)
-    return newClient
+    return {
+      ...newClient,
+      jobCount: 0,
+      proposalCount: 0,
+      invoiceCount: 0
+    }
   },
 
   async update(id, clientData) {

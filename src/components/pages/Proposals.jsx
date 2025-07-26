@@ -114,7 +114,7 @@ const Proposals = () => {
     }).format(amount)
   }
 
-  const columns = [
+const columns = [
     {
       key: "title",
       label: "Proposal Title",
@@ -135,7 +135,16 @@ const Proposals = () => {
       key: "status",
       label: "Status",
       sortable: true,
-      render: (value) => <StatusBadge status={value} type="proposal" />
+      render: (value, row) => (
+        <div className="flex items-center gap-2">
+          <StatusBadge status={value} type="proposal" />
+          {row.jobId && (
+            <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded">
+              Job Created
+            </span>
+          )}
+        </div>
+      )
     },
     {
       key: "total",

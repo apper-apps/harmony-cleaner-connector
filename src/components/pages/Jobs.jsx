@@ -102,7 +102,7 @@ const Jobs = () => {
     loadJobs()
   }
 
-  const columns = [
+const columns = [
     {
       key: "title",
       label: "Job Title",
@@ -128,7 +128,16 @@ const Jobs = () => {
       key: "status",
       label: "Status",
       sortable: true,
-      render: (value) => <StatusBadge status={value} type="job" />
+      render: (value, row) => (
+        <div className="flex items-center gap-2">
+          <StatusBadge status={value} type="job" />
+          {row.proposalId && (
+            <span className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+              From Proposal
+            </span>
+          )}
+        </div>
+      )
     },
     {
       key: "jobType",

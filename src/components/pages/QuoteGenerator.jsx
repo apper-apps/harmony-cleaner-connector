@@ -90,10 +90,10 @@ const handleSubmit = async (e) => {
         squareFootage: parseInt(formData.squareFootage)
       }
       
-      // Create quote first
-      await createQuote(quoteData)
+      // Create quote first with calculated pricing
+      const createdQuote = await createQuote(quoteData)
       
-      // Create client prospect
+      // Create client prospect with quote relationship
       try {
         const clientData = {
           name: formData.customerName,
@@ -101,7 +101,7 @@ const handleSubmit = async (e) => {
           phone: formData.customerPhone || '',
           status: 'prospect',
           source: 'quote_generator',
-          notes: `Interested in ${formData.serviceFrequency} cleaning service for ${formData.squareFootage} sq ft`
+          notes: `Interested in ${formData.serviceFrequency} cleaning service for ${formData.squareFootage} sq ft. Quote #${createdQuote.Id} submitted.`
         }
         
         await clientService.create(clientData)
