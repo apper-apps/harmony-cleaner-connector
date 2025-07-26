@@ -20,6 +20,7 @@ const Clients = () => {
   const [error, setError] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingClient, setEditingClient] = useState(null)
+  const [statusFilter, setStatusFilter] = useState('all')
 
   useEffect(() => {
     loadClients()
@@ -32,7 +33,7 @@ const Clients = () => {
     try {
       const data = await clientService.getAll()
       setClients(data)
-      setFilteredClients(data)
+      applyFilters(data, statusFilter)
     } catch (err) {
       setError("Failed to load clients. Please try again.")
     } finally {
@@ -40,13 +41,34 @@ const Clients = () => {
     }
   }
 
+  const applyFilters = (clientData, status) => {
+    let filtered = [...clientData]
+    
+    if (status !== 'all') {
+      filtered = filtered.filter(client => client.status === status)
+    }
+    
+    setFilteredClients(filtered)
+  }
+
+  const handleStatusFilter = (status) => {
+    setStatusFilter(status)
+    applyFilters(clients, status)
+  }
+
   const handleSearch = (query) => {
+    let baseData = [...clients]
+    
+    if (statusFilter !== 'all') {
+      baseData = baseData.filter(client => client.status === statusFilter)
+    }
+    
     if (!query.trim()) {
-      setFilteredClients(clients)
+      setFilteredClients(baseData)
       return
     }
 
-    const filtered = clients.filter(client =>
+    const filtered = baseData.filter(client =>
       client.name.toLowerCase().includes(query.toLowerCase()) ||
       client.email.toLowerCase().includes(query.toLowerCase()) ||
       client.phone.includes(query)
@@ -136,15 +158,15 @@ const Clients = () => {
     return <Error message={error} onRetry={loadClients} />
   }
 
-  return (
+return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent mb-2">
-            Clients
+            Clients & Prospects
           </h1>
           <p className="text-gray-600">
-            Manage your client relationships and contact information.
+            Manage your client relationships and prospect pipeline.
           </p>
         </div>
         
@@ -164,13 +186,57 @@ const Clients = () => {
             placeholder="Search clients by name, email, or phone..."
           />
         </div>
+        <div className="flex rounded-lg border border-gray-200 bg-white p-1">
+          <button
+            onClick={() => handleStatusFilter('all')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              statusFilter === 'all'
+                ? 'bg-primary-600 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            All ({clients.length})
+          </button>
+          <button
+            onClick={() => handleStatusFilter('client')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              statusFilter === 'client'
+                ? 'bg-primary-600 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            Clients ({clients.filter(c => c.status === 'client').length})
+          </button>
+          <button
+            onClick={() => handleStatusFilter('prospect')}
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+              statusFilter === 'prospect'
+                ? 'bg-primary-600 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+            }`}
+          >
+            Prospects ({clients.filter(c => c.status === 'prospect').length})
+          </button>
+        </div>
       </div>
 
       {filteredClients.length === 0 ? (
         <Empty
-          message="No clients found"
-          description="Get started by adding your first client to begin managing your business relationships."
-          actionLabel="Add First Client"
+          message={
+            statusFilter === 'all' 
+              ? "No clients or prospects found"
+              : statusFilter === 'client'
+              ? "No clients found"
+              : "No prospects found"
+          }
+          description={
+            statusFilter === 'all'
+              ? "Get started by adding your first client or prospect to begin managing your business relationships."
+              : statusFilter === 'client'
+              ? "Convert prospects to clients or add new clients directly."
+              : "Prospects are automatically created from the quote generator, or you can add them manually."
+          }
+          actionLabel={statusFilter === 'prospect' ? "Add Prospect" : "Add Client"}
           onAction={() => setIsModalOpen(true)}
           icon="Users"
         />

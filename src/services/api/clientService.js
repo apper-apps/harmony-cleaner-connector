@@ -11,10 +11,11 @@ let invoices = [...invoicesData]
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
 export const clientService = {
-  async getAll() {
+async getAll() {
     await delay(300)
     return clients.map(client => ({
       ...client,
+      status: client.status || 'client',
       jobCount: jobs.filter(job => job.clientId === client.Id).length,
       invoiceCount: invoices.filter(invoice => invoice.clientId === client.Id).length
     }))
@@ -37,12 +38,13 @@ export const clientService = {
     }
   },
 
-  async create(clientData) {
+async create(clientData) {
     await delay(400)
     const newId = Math.max(...clients.map(c => c.Id)) + 1
     const newClient = {
       Id: newId,
       ...clientData,
+      status: clientData.status || 'client',
       createdAt: new Date().toISOString()
     }
     clients.push(newClient)

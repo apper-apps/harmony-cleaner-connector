@@ -11,7 +11,8 @@ const ClientForm = ({ client = null, onSubmit, onCancel }) => {
     email: client?.email || "",
     phone: client?.phone || "",
     address: client?.address || "",
-    notes: client?.notes || ""
+    notes: client?.notes || "",
+    status: client?.status || "client"
   })
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState({})
@@ -92,7 +93,7 @@ const ClientForm = ({ client = null, onSubmit, onCancel }) => {
           placeholder="(555) 123-4567"
           required
         />
-      </div>
+</div>
 
       <FormField
         label="Email Address"
@@ -106,6 +107,36 @@ const ClientForm = ({ client = null, onSubmit, onCancel }) => {
         required
       />
 
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700">
+          Status
+        </label>
+        <div className="flex gap-4">
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="status"
+              value="client"
+              checked={formData.status === 'client'}
+              onChange={handleChange}
+              className="mr-2 text-primary-600 focus:ring-primary-500"
+            />
+            <span className="text-sm text-gray-700">Client</span>
+          </label>
+          <label className="flex items-center">
+            <input
+              type="radio"
+              name="status"
+              value="prospect"
+              checked={formData.status === 'prospect'}
+              onChange={handleChange}
+              className="mr-2 text-primary-600 focus:ring-primary-500"
+            />
+            <span className="text-sm text-gray-700">Prospect</span>
+          </label>
+        </div>
+      </div>
+
       <FormField
         label="Address"
         id="address"
@@ -115,7 +146,6 @@ const ClientForm = ({ client = null, onSubmit, onCancel }) => {
         error={errors.address}
         placeholder="123 Main St, City, State 12345"
       />
-
       <div className="space-y-2">
         <label htmlFor="notes" className="block text-sm font-medium text-gray-700">
           Notes
