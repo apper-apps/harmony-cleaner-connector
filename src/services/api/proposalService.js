@@ -9,10 +9,13 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 export const proposalService = {
   async getAll() {
     await delay(300)
-    return proposals.map(proposal => ({
-      ...proposal,
-      clientName: clients.find(c => c.Id === proposal.clientId)?.name || "Unknown Client"
-    }))
+    return proposals.map(proposal => {
+      const client = clients.find(c => c.Id === proposal.clientId)
+      return {
+        ...proposal,
+        clientName: client?.name || "Unknown Client"
+      }
+    })
   },
 
   async getById(id) {
@@ -32,14 +35,18 @@ export const proposalService = {
     const newId = Math.max(...proposals.map(p => p.Id)) + 1
     const total = proposalData.lineItems.reduce((sum, item) => sum + item.price, 0)
     const newProposal = {
-      Id: newId,
+Id: newId,
       ...proposalData,
+      clientId: parseInt(proposalData.clientId), // Ensure clientId is integer
       total,
       dateSent: new Date().toISOString(),
       jobId: null
     }
     proposals.push(newProposal)
-    return newProposal
+    return {
+      ...newProposal,
+      clientName: clients.find(c => c.Id === newProposal.clientId)?.name || "Unknown Client"
+    }
   },
 
   async update(id, proposalData) {

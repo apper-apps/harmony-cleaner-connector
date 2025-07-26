@@ -9,7 +9,8 @@ import { create as createQuote, calculateQuote } from "@/services/api/quoteServi
 import { getSurcharges, getDiscounts } from "@/services/api/rateService"
 import { clientService } from "@/services/api/clientService"
 const QuoteGenerator = () => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
+    clientId: '', // Add client selection
     customerName: '',
     customerEmail: '',
     customerPhone: '',
@@ -17,6 +18,8 @@ const QuoteGenerator = () => {
     serviceFrequency: 'weekly',
     addOns: []
   })
+  const [clients, setClients] = useState([])
+  const [prospects, setProspects] = useState([])
   const [quote, setQuote] = useState(null)
   const [loading, setLoading] = useState(false)
 const [surcharges, setSurcharges] = useState([])
@@ -75,6 +78,52 @@ const handleAddOnToggle = (addOnKey) => {
     handleInputChange('addOns', newAddOns)
   }
 
+// Load clients and prospects for selection
+  const loadClientsAndProspects = async () => {
+    try {
+      const [clientData, prospectData] = await Promise.all([
+        clientService.getAll(),
+        clientService.getAllProspects()
+      ])
+      setClients(clientData)
+      setProspects(prospectData)
+    } catch (error) {
+      console.error('Failed to load clients/prospects:', error)
+    }
+  }
+
+  useEffect(() => {
+    loadClientsAndProspects()
+  }, [])
+
+  // Handle client selection changes
+  const handleClientChange = (e) => {
+    const selectedId = e.target.value
+    setFormData(prev => ({ ...prev, clientId: selectedId }))
+    
+    if (selectedId) {
+      // Find selected client/prospect and populate form
+      const allClients = [...clients, ...prospects]
+      const selectedClient = allClients.find(c => c.Id === parseInt(selectedId))
+      if (selectedClient) {
+        setFormData(prev => ({
+          ...prev,
+          customerName: selectedClient.name,
+          customerEmail: selectedClient.email,
+          customerPhone: selectedClient.phone || ''
+        }))
+      }
+    } else {
+      // Clear client info when no selection
+      setFormData(prev => ({
+        ...prev,
+        customerName: '',
+        customerEmail: '',
+        customerPhone: ''
+      }))
+    }
+  }
+
 const handleSubmit = async (e) => {
     e.preventDefault()
     
@@ -88,7 +137,8 @@ setLoading(true)
       const quoteData = {
         ...formData,
         frequency: formData.serviceFrequency, // Map serviceFrequency to frequency for service compatibility
-        squareFootage: parseInt(formData.squareFootage)
+        squareFootage: parseInt(formData.squareFootage),
+        selectedClientId: formData.clientId ? parseInt(formData.clientId) : null // Pass selected client ID
       }
       
       // Create quote with automatic prospect and proposal creation
@@ -97,6 +147,7 @@ setLoading(true)
       toast.success('Quote submitted and added to prospects! We\'ll be in touch soon.')
       // Reset form
       setFormData({
+        clientId: '',
         customerName: '',
         customerEmail: '',
         customerPhone: '',
