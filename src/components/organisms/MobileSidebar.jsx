@@ -4,13 +4,14 @@ import Button from "@/components/atoms/Button"
 import { cn } from "@/utils/cn"
 
 const MobileSidebar = ({ isOpen, onClose }) => {
-  const navItems = [
+const navItems = [
     { to: "/", label: "Dashboard", icon: "LayoutDashboard" },
     { to: "/clients", label: "Clients", icon: "Users" },
     { to: "/jobs", label: "Jobs", icon: "Briefcase" },
     { to: "/proposals", label: "Proposals", icon: "FileText" },
     { to: "/invoices", label: "Invoices", icon: "Receipt" },
-    { to: "/calendar", label: "Calendar", icon: "Calendar" }
+    { to: "/calendar", label: "Calendar", icon: "Calendar" },
+    { to: "/quote", label: "Quote Generator", icon: "Calculator" }
   ]
 
   if (!isOpen) return null

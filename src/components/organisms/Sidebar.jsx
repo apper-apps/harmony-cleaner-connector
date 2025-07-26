@@ -10,6 +10,7 @@ const navItems = [
     { to: "/proposals", label: "Proposals", icon: "FileText" },
     { to: "/invoices", label: "Invoices", icon: "Receipt" },
     { to: "/calendar", label: "Calendar", icon: "Calendar" },
+    { to: "/quote", label: "Quote Generator", icon: "Calculator" },
     { to: "/rates", label: "Rates", icon: "Settings" }
   ]
 
