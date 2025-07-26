@@ -60,13 +60,17 @@ async getById(id) {
       invoiceCount: 0
     }
   },
+// Find client by email address
+  async findByEmail(email) {
+    await delay(200)
+    return clients.find(c => c.email && c.email.toLowerCase() === email.toLowerCase()) || null
+  },
 
   // Alias for legacy compatibility
   async createProspect(clientData) {
     return this.create({ ...clientData, status: 'prospect' })
   },
-
-  async update(id, clientData) {
+async update(id, clientData) {
     await delay(350)
     const index = clients.findIndex(c => c.Id === parseInt(id))
     if (index === -1) throw new Error("Client not found")

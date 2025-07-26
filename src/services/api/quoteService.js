@@ -110,29 +110,47 @@ try {
     const frequency = quoteData.serviceFrequency || 'weekly'
     const detailedNotes = `Quote #${newQuote.Id} - ${frequency} cleaning service for ${quoteData.squareFootage || 'unspecified'} sq ft. Selected add-ons: ${addOnsList}. Total estimate: $${newQuote.totalPrice}. Customer preferences and requirements documented.`
     
-    // Create prospect with comprehensive notes
-    const prospectData = {
-      name: newQuote.customerName,
-      email: newQuote.customerEmail,
-      phone: newQuote.customerPhone || '',
-      status: 'prospect',
-      source: 'quote_generator',
-      notes: detailedNotes
+    // Check if client already exists by email
+    let createdProspect
+    const existingClient = await clientService.findByEmail(newQuote.customerEmail)
+    
+    if (existingClient) {
+      // Update existing client with new information
+      const updatedNotes = existingClient.notes ? 
+        `${existingClient.notes}\n\n${detailedNotes}` : 
+        detailedNotes
+      
+      createdProspect = await clientService.update(existingClient.Id, {
+        name: newQuote.customerName, // Update name in case it's different
+        phone: newQuote.customerPhone || existingClient.phone,
+        notes: updatedNotes
+      })
+    } else {
+      // Create new prospect
+      const prospectData = {
+        name: newQuote.customerName,
+        email: newQuote.customerEmail,
+        phone: newQuote.customerPhone || '',
+        status: 'prospect',
+        source: 'quote_generator',
+        notes: detailedNotes
+      }
+      
+      createdProspect = await clientService.createProspect(prospectData)
     }
     
-const createdProspect = await clientService.createProspect(prospectData)
-    
-    // Create corresponding proposal with same detailed information
+    // Create corresponding proposal with service name and client name in title
     const capitalizedFrequency = frequency.charAt(0).toUpperCase() + frequency.slice(1)
+    const serviceName = `${capitalizedFrequency} Cleaning Service`
     
     const proposalData = {
       clientId: createdProspect.Id,
-title: `${capitalizedFrequency} Cleaning Service - Quote #${newQuote.Id}`,
+      title: `${serviceName} - ${newQuote.customerName}`,
       status: 'Draft',
       lineItems: [
         {
           id: 1,
-          service: `${capitalizedFrequency} Cleaning Service`,
+          service: serviceName,
           price: parseFloat(newQuote.basePrice || 0)
         }
       ],
@@ -140,7 +158,7 @@ title: `${capitalizedFrequency} Cleaning Service - Quote #${newQuote.Id}`,
       jobId: null
     }
     
-    // Add line items for selected add-ons (addOns comes as array of keys)
+    // Add line items for selected add-ons
     if (quoteData.addOns && quoteData.addOns.length > 0) {
       let itemId = 2
       const availableSurcharges = getSurcharges()

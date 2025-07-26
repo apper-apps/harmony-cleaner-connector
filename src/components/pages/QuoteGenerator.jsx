@@ -91,28 +91,10 @@ setLoading(true)
         squareFootage: parseInt(formData.squareFootage)
       }
       
-      // Create quote first with calculated pricing
+      // Create quote with automatic prospect and proposal creation
       const createdQuote = await createQuote(quoteData)
       
-      // Create client prospect with quote relationship
-      try {
-        const clientData = {
-          name: formData.customerName,
-          email: formData.customerEmail,
-          phone: formData.customerPhone || '',
-          status: 'prospect',
-          source: 'quote_generator',
-          notes: `Interested in ${formData.serviceFrequency} cleaning service for ${formData.squareFootage} sq ft. Quote #${createdQuote.Id} submitted.`
-        }
-        
-        await clientService.create(clientData)
-        toast.success('Quote submitted and added to prospects! We\'ll be in touch soon.')
-      } catch (clientErr) {
-        // Quote was created successfully, but client creation failed
-        console.warn('Failed to create client prospect:', clientErr.message)
-        toast.success('Quote request submitted successfully! We\'ll be in touch soon.')
-      }
-      
+      toast.success('Quote submitted and added to prospects! We\'ll be in touch soon.')
       // Reset form
       setFormData({
         customerName: '',
