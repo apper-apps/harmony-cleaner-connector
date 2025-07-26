@@ -1,7 +1,7 @@
-import { useState } from "react"
-import Button from "@/components/atoms/Button"
-import ApperIcon from "@/components/ApperIcon"
-import { cn } from "@/utils/cn"
+import React, { useState } from "react";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import { cn } from "@/utils/cn";
 
 const DataTable = ({ 
   columns, 
@@ -81,11 +81,20 @@ const DataTable = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {sortedData.map((row, index) => (
-              <tr 
-                key={row.Id || index} 
-                className="hover:bg-gray-50 transition-colors duration-150"
-              >
+{sortedData.map((row, index) => {
+              // Generate truly unique key to prevent React warning about duplicate keys
+              const uniqueKey = row.Id ? `${row.Id}-${index}` : 
+                                row.id ? `${row.id}-${index}` :
+                                row.invoiceNumber ? `inv-${row.invoiceNumber}-${index}` :
+                                row.name ? `name-${row.name}-${index}` :
+                                row.title ? `title-${row.title}-${index}` :
+                                `row-${index}-${Object.keys(row).length}`;
+              
+              return (
+                <tr 
+                  key={uniqueKey}
+                  className="hover:bg-gray-50 transition-colors duration-150"
+                >
                 {columns.map((column) => (
                   <td key={column.key} className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {column.render ? column.render(row[column.key], row) : row[column.key]}
@@ -124,7 +133,7 @@ const DataTable = ({
                       )}
                     </div>
                   </td>
-                )}
+)}
               </tr>
             ))}
           </tbody>
