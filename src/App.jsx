@@ -8,13 +8,15 @@ import Jobs from "@/components/pages/Jobs"
 import Proposals from "@/components/pages/Proposals"
 import Invoices from "@/components/pages/Invoices"
 import Calendar from "@/components/pages/Calendar"
+import RateManagement from "@/components/pages/RateManagement"
+import QuoteGenerator from "@/components/pages/QuoteGenerator"
 
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-slate-50">
         <Layout>
-          <Routes>
+<Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/clients/:id" element={<ClientDetail />} />
@@ -22,6 +24,8 @@ function App() {
             <Route path="/proposals" element={<Proposals />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/rates" element={<RateManagement />} />
+            <Route path="/quote" element={<QuoteGenerator />} />
           </Routes>
         </Layout>
         <ToastContainer

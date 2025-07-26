@@ -3,13 +3,14 @@ import ApperIcon from "@/components/ApperIcon"
 import { cn } from "@/utils/cn"
 
 const Sidebar = ({ className }) => {
-  const navItems = [
+const navItems = [
     { to: "/", label: "Dashboard", icon: "LayoutDashboard" },
     { to: "/clients", label: "Clients", icon: "Users" },
     { to: "/jobs", label: "Jobs", icon: "Briefcase" },
     { to: "/proposals", label: "Proposals", icon: "FileText" },
     { to: "/invoices", label: "Invoices", icon: "Receipt" },
-    { to: "/calendar", label: "Calendar", icon: "Calendar" }
+    { to: "/calendar", label: "Calendar", icon: "Calendar" },
+    { to: "/rates", label: "Rates", icon: "Settings" }
   ]
 
   return (

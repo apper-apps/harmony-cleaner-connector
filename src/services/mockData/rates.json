@@ -1,0 +1,115 @@
+[
+  {
+    "Id": 1,
+    "category": "squareFootage",
+    "name": "0-999 sq ft",
+    "minSqFt": 0,
+    "maxSqFt": 999,
+    "basePrice": 80,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 2,
+    "category": "squareFootage",
+    "name": "1000-1499 sq ft",
+    "minSqFt": 1000,
+    "maxSqFt": 1499,
+    "basePrice": 120,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 3,
+    "category": "squareFootage",
+    "name": "1500-1999 sq ft",
+    "minSqFt": 1500,
+    "maxSqFt": 1999,
+    "basePrice": 160,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 4,
+    "category": "squareFootage",
+    "name": "2000+ sq ft",
+    "minSqFt": 2000,
+    "maxSqFt": 999999,
+    "basePrice": 200,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 5,
+    "category": "surcharge",
+    "name": "Deep Cleaning",
+    "description": "Comprehensive deep cleaning service",
+    "surchargeType": "percentage",
+    "surchargeValue": 50,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 6,
+    "category": "surcharge",
+    "name": "Pet Hair Cleanup",
+    "description": "Additional cleaning for pet owners",
+    "surchargeType": "fixed",
+    "surchargeValue": 25,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 7,
+    "category": "surcharge",
+    "name": "Cleaning Supplies",
+    "description": "We provide all cleaning supplies",
+    "surchargeType": "fixed",
+    "surchargeValue": 15,
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 8,
+    "category": "discount",
+    "name": "Weekly Service",
+    "description": "Recurring weekly cleaning discount",
+    "discountType": "percentage",
+    "discountValue": 15,
+    "frequency": "weekly",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 9,
+    "category": "discount",
+    "name": "Bi-Weekly Service",
+    "description": "Recurring bi-weekly cleaning discount",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "frequency": "biweekly",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  },
+  {
+    "Id": 10,
+    "category": "discount",
+    "name": "Monthly Service",
+    "description": "Recurring monthly cleaning discount",
+    "discountType": "percentage",
+    "discountValue": 5,
+    "frequency": "monthly",
+    "isActive": true,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-01T00:00:00Z"
+  }
+]

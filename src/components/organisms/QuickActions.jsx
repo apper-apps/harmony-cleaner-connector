@@ -25,7 +25,7 @@ const QuickActions = ({ onRefresh }) => {
       color: "success",
       description: "Schedule a cleaning job"
     },
-    {
+{
       id: "proposal",
       label: "Create Proposal",
       icon: "FileText",
@@ -38,11 +38,22 @@ const QuickActions = ({ onRefresh }) => {
       icon: "Receipt",
       color: "warning",
       description: "Generate a new invoice"
+    },
+    {
+      id: "rates",
+      label: "Manage Rates",
+      icon: "Settings",
+      color: "secondary",
+      description: "Configure pricing tiers"
     }
   ]
 
-  const handleActionClick = (actionId) => {
-    setActiveModal(actionId)
+const handleActionClick = (actionId) => {
+    if (actionId === "rates") {
+      window.location.href = "/rates"
+    } else {
+      setActiveModal(actionId)
+    }
   }
 
   const handleCloseModal = () => {
@@ -54,11 +65,12 @@ const QuickActions = ({ onRefresh }) => {
     if (onRefresh) onRefresh()
   }
 
-  const colorClasses = {
+const colorClasses = {
     primary: "from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700",
     success: "from-green-500 to-green-600 hover:from-green-600 hover:to-green-700",
     info: "from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700",
-    warning: "from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700"
+    warning: "from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700",
+    secondary: "from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700"
   }
 
   return (

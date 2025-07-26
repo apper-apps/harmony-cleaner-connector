@@ -1,0 +1,50 @@
+[
+  {
+    "Id": 1,
+    "customerName": "John Smith",
+    "customerEmail": "john.smith@example.com",
+    "customerPhone": "(555) 123-4567",
+    "squareFootage": 1200,
+    "serviceFrequency": "weekly",
+    "addOns": ["deepCleaning", "pets"],
+    "basePrice": 120,
+    "surcharges": 85,
+    "discounts": 18,
+    "totalPrice": 187,
+    "status": "pending",
+    "createdAt": "2024-01-15T10:30:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "customerName": "Sarah Johnson",
+    "customerEmail": "sarah.j@example.com",
+    "customerPhone": "(555) 987-6543",
+    "squareFootage": 800,
+    "serviceFrequency": "biweekly",
+    "addOns": ["supplies"],
+    "basePrice": 80,
+    "surcharges": 15,
+    "discounts": 8,
+    "totalPrice": 87,
+    "status": "contacted",
+    "createdAt": "2024-01-14T14:20:00Z",
+    "updatedAt": "2024-01-16T09:15:00Z"
+  },
+  {
+    "Id": 3,
+    "customerName": "Mike Wilson",
+    "customerEmail": "mike.wilson@example.com",
+    "customerPhone": "(555) 456-7890",
+    "squareFootage": 2500,
+    "serviceFrequency": "monthly",
+    "addOns": ["deepCleaning", "supplies"],
+    "basePrice": 200,
+    "surcharges": 115,
+    "discounts": 10,
+    "totalPrice": 305,
+    "status": "converted",
+    "createdAt": "2024-01-12T16:45:00Z",
+    "updatedAt": "2024-01-18T11:30:00Z"
+  }
+]
