@@ -1,0 +1,32 @@
+[
+  {
+    "Id": 7,
+    "name": "Amanda Foster",
+    "email": "amanda.foster@email.com",
+    "phone": "(555) 789-0123",
+    "address": "159 Willow Street, Springfield, IL 62707",
+    "notes": "Interested in weekly residential cleaning. Waiting for budget approval.",
+    "status": "prospect",
+    "createdAt": "2024-02-05T09:30:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Tech Solutions Inc",
+    "email": "facilities@techsolutions.com",
+    "phone": "(555) 890-1234",
+    "address": "2400 Business Park Dr, Springfield, IL 62708",
+    "notes": "Large office building. Requesting quote for nightly commercial cleaning.",
+    "status": "prospect",
+    "createdAt": "2024-02-08T14:45:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "Lisa Thompson",
+    "email": "lisa.thompson@email.com",
+    "phone": "(555) 901-2345",
+    "address": "876 Rose Lane, Springfield, IL 62709",
+    "notes": "Move-in cleaning needed. Recently purchased home, flexible on timing.",
+    "status": "prospect",
+    "createdAt": "2024-02-10T11:15:00Z"
+  }
+]

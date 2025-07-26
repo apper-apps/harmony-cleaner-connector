@@ -9,11 +9,12 @@ import { invoiceService } from "@/services/api/invoiceService"
 import { clientService } from "@/services/api/clientService"
 
 const Dashboard = () => {
-  const [data, setData] = useState({
+const [data, setData] = useState({
     activeJobs: 0,
     pendingProposals: 0,
     unpaidInvoices: 0,
-    recentClients: 0
+    recentClients: 0,
+    prospects: 0
   })
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState("")
@@ -22,7 +23,7 @@ const Dashboard = () => {
     loadDashboardData()
   }, [])
 
-  const loadDashboardData = async () => {
+const loadDashboardData = async () => {
     setLoading(true)
     setError("")
     
@@ -49,14 +50,19 @@ const Dashboard = () => {
       const thirtyDaysAgo = new Date()
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
       const recentClients = clients.filter(client => 
-        new Date(client.createdAt) > thirtyDaysAgo
+        new Date(client.createdAt) > thirtyDaysAgo && client.status === 'client'
+      ).length
+
+      const prospects = clients.filter(client => 
+        client.status === 'prospect'
       ).length
 
       setData({
         activeJobs,
         pendingProposals,
         unpaidInvoices,
-        recentClients
+        recentClients,
+        prospects
       })
     } catch (err) {
       setError("Failed to load dashboard data. Please try again.")
@@ -84,7 +90,7 @@ const Dashboard = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <MetricCard
           title="Total Active Jobs"
           value={data.activeJobs}
@@ -113,6 +119,13 @@ const Dashboard = () => {
           color="success"
           description="New clients this month"
         />
+        <MetricCard
+          title="Active Prospects"
+          value={data.prospects}
+          icon="Users"
+          color="info"
+          description="Potential clients in pipeline"
+        />
       </div>
 
       <QuickActions onRefresh={loadDashboardData} />
@@ -135,9 +148,7 @@ const Dashboard = () => {
               <span className="font-semibold text-green-600">$8,750</span>
             </div>
             <div className="flex justify-between items-center py-2 border-b border-gray-100">
-              <span className="text-sm text-gray-600">Client Satisfaction</span>
-              <span className="font-semibold text-primary-600">97%</span>
-            </div>
+</div>
             <div className="flex justify-between items-center py-2">
               <span className="text-sm text-gray-600">Avg. Job Value</span>
               <span className="font-semibold text-gray-900">$185</span>
@@ -166,9 +177,7 @@ const Dashboard = () => {
               <span className="font-semibold text-primary-600">$52,400</span>
             </div>
             <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-600">Avg. Response Time</span>
-              <span className="font-semibold text-gray-900">2.3 hours</span>
-            </div>
+</div>
           </div>
         </div>
       </div>

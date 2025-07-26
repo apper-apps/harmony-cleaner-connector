@@ -1,9 +1,10 @@
 import clientsData from "@/services/mockData/clients.json"
+import prospectsData from "@/services/mockData/prospects.json"
 import jobsData from "@/services/mockData/jobs.json"
 import proposalsData from "@/services/mockData/proposals.json"
 import invoicesData from "@/services/mockData/invoices.json"
 
-let clients = [...clientsData]
+let clients = [...clientsData, ...prospectsData]
 let jobs = [...jobsData]
 let proposals = [...proposalsData]
 let invoices = [...invoicesData]

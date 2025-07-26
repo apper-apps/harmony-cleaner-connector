@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn"
 const Sidebar = ({ className }) => {
 const navItems = [
     { to: "/", label: "Dashboard", icon: "LayoutDashboard" },
-    { to: "/clients", label: "Clients", icon: "Users" },
+    { to: "/clients", label: "People", icon: "Users" },
     { to: "/jobs", label: "Jobs", icon: "Briefcase" },
     { to: "/proposals", label: "Proposals", icon: "FileText" },
     { to: "/invoices", label: "Invoices", icon: "Receipt" },
