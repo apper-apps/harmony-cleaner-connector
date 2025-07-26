@@ -127,7 +127,7 @@ const createdProspect = await clientService.createProspect(prospectData)
     
     const proposalData = {
       clientId: createdProspect.Id,
-      title: `${capitalizedFrequency} Cleaning Service - Quote #${newQuote.Id}`,
+title: `${capitalizedFrequency} Cleaning Service - Quote #${newQuote.Id}`,
       status: 'Draft',
       lineItems: [
         {
@@ -140,16 +140,22 @@ const createdProspect = await clientService.createProspect(prospectData)
       jobId: null
     }
     
-    // Add line items for selected add-ons
-    if (quoteData.addOns) {
+    // Add line items for selected add-ons (addOns comes as array of keys)
+    if (quoteData.addOns && quoteData.addOns.length > 0) {
       let itemId = 2
-      Object.entries(quoteData.addOns).forEach(([key, selected]) => {
-        if (selected) {
-          const serviceName = key.replace(/([A-Z])/g, ' $1').trim()
+      const availableSurcharges = getSurcharges()
+      
+      quoteData.addOns.forEach((addOnKey) => {
+        // Find the corresponding surcharge to get proper name and price
+        const surcharge = availableSurcharges.find(s => 
+          s.name.toLowerCase().replace(/\s+/g, '') === addOnKey
+        )
+        
+        if (surcharge) {
           proposalData.lineItems.push({
             id: itemId++,
-            service: serviceName,
-            price: 25.00 // Default add-on price
+            service: surcharge.name,
+            price: parseFloat(surcharge.amount || 25.00)
           })
         }
       })
