@@ -7,7 +7,7 @@ import Label from "@/components/atoms/Label"
 import ApperIcon from "@/components/ApperIcon"
 import { create as createQuote, calculateQuote } from "@/services/api/quoteService"
 import { getSurcharges, getDiscounts } from "@/services/api/rateService"
-
+import { clientService } from "@/services/api/clientService"
 const QuoteGenerator = () => {
   const [formData, setFormData] = useState({
     customerName: '',
@@ -53,7 +53,7 @@ const QuoteGenerator = () => {
     handleInputChange('addOns', newAddOns)
   }
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault()
     
     if (!formData.squareFootage || !formData.customerName || !formData.customerEmail) {
@@ -68,8 +68,27 @@ const QuoteGenerator = () => {
         squareFootage: parseInt(formData.squareFootage)
       }
       
+      // Create quote first
       await createQuote(quoteData)
-      toast.success('Quote request submitted successfully! We\'ll be in touch soon.')
+      
+      // Create client prospect
+      try {
+        const clientData = {
+          name: formData.customerName,
+          email: formData.customerEmail,
+          phone: formData.customerPhone || '',
+          status: 'prospect',
+          source: 'quote_generator',
+          notes: `Interested in ${formData.serviceFrequency} cleaning service for ${formData.squareFootage} sq ft`
+        }
+        
+        await clientService.create(clientData)
+        toast.success('Quote submitted and added to prospects! We\'ll be in touch soon.')
+      } catch (clientErr) {
+        // Quote was created successfully, but client creation failed
+        console.warn('Failed to create client prospect:', clientErr.message)
+        toast.success('Quote request submitted successfully! We\'ll be in touch soon.')
+      }
       
       // Reset form
       setFormData({
@@ -121,12 +140,12 @@ const QuoteGenerator = () => {
       <div className="max-w-4xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-3 mb-4">
+<div className="inline-flex items-center gap-3 mb-4">
             <div className="p-3 rounded-full bg-gradient-to-r from-primary-500 to-primary-600">
               <ApperIcon name="Sparkles" className="h-8 w-8 text-white" />
             </div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent">
-              CleanerConnector
+              Get Your Quote
             </h1>
           </div>
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">
@@ -334,18 +353,6 @@ const QuoteGenerator = () => {
                 </div>
               )}
 
-              <div className="mt-6 p-4 bg-gradient-to-r from-primary-50 to-blue-50 rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <ApperIcon name="Shield" size={16} className="text-primary-600" />
-                  <span className="text-sm font-medium text-primary-600">Why Choose Us?</span>
-                </div>
-                <ul className="text-sm text-gray-600 space-y-1">
-                  <li>• Bonded & Insured</li>
-                  <li>• 100% Satisfaction Guarantee</li>
-                  <li>• Eco-Friendly Products</li>
-                  <li>• Flexible Scheduling</li>
-                </ul>
-              </div>
             </Card>
           </div>
         </div>
